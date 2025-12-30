@@ -1,4 +1,4 @@
-import { ChannelType } from 'discord.js'
+import { ChannelType, PermissionFlagsBits } from 'discord.js'
 import { log } from '../utils/logger.js'
 import t from '../utils/t.js'
 import config from '../../config/config.js'
@@ -80,10 +80,23 @@ export default async (client, oldState, newState) => {
         const baseName = (member.displayName || member.user.username || 'Temporary').trim() || 'Temporary'
         const channelName = `${baseName}'s Channel`.slice(0, MAX_CHANNEL_NAME_LENGTH)
 
+        const everyoneRole = newChannel.guild.roles.everyone
+
         const temp = await newChannel.guild.channels.create({
           name: channelName,
           type: ChannelType.GuildVoice,
-          parent: process.env.CATEGORY_CHANNEL_ID
+          parent: process.env.CATEGORY_CHANNEL_ID,
+          permissionOverwrites: [
+            {
+              id: everyoneRole.id,
+              allow: [
+                PermissionFlagsBits.ViewChannel,
+                PermissionFlagsBits.Connect,
+                PermissionFlagsBits.Speak,
+                PermissionFlagsBits.UseVAD
+              ]
+            }
+          ]
         })
 
         await newState.setChannel(temp)
