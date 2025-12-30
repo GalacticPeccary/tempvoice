@@ -113,7 +113,7 @@ Adjust bot behavior easily through `config/config.js`:
 
 ```js
 export default {
-  language: 'en',        // Language (en, id, ru, jp, cn, de)
+  language: 'en',        // Language (en, id, ru, jp, cn, de, ro)
   embedcode: '#2f3136',  // Default embed color
   log: true              // Enable or disable action logging
 }
@@ -129,7 +129,7 @@ You can customize bot behavior in `config/config.js`:
 
 ```js
 export default {
-  language: 'en',        // Language (en, id, ru, jp, cn, de)
+  language: 'en',        // Language (en, id, ru, jp, cn, de, ro)
   embedcode: '#2f3136',  // Default embed color
   log: true              // Enable or disable action logging
 }
