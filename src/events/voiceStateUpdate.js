@@ -3,7 +3,7 @@ import { log } from '../utils/logger.js'
 import t from '../utils/t.js'
 import config from '../../config/config.js'
 import { addTempChannel, removeTempChannel, updateChannelActivity, getUserTempChannels } from '../utils/database.js'
-import { MAX_CHANNELS_PER_USER } from '../constants.js'
+import { MAX_CHANNELS_PER_USER, MAX_CHANNEL_NAME_LENGTH } from '../constants.js'
 
 /**
  * Bounded set to prevent memory leaks
@@ -77,8 +77,11 @@ export default async (client, oldState, newState) => {
       creationLocks.add(member.id)
 
       try {
+        const baseName = (member.displayName || member.user.username || 'Temporary').trim() || 'Temporary'
+        const channelName = `${baseName}'s Channel`.slice(0, MAX_CHANNEL_NAME_LENGTH)
+
         const temp = await newChannel.guild.channels.create({
-          name: `${member.user.username} - room`,
+          name: channelName,
           type: ChannelType.GuildVoice,
           parent: process.env.CATEGORY_CHANNEL_ID
         })
