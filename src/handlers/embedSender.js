@@ -4,6 +4,8 @@ import {
   ButtonBuilder,
   ButtonStyle
 } from 'discord.js'
+import config from '../../config/config.js'
+import t from '../utils/t.js'
 import 'dotenv/config'
 
 const useUnicode = process.env.USE_UNICODE_EMOJI === 'true'
@@ -28,6 +30,7 @@ const unicodeEmojis = {
 
 export const embedSender = async channel => {
   const embed = createVoiceEmbed()
+  const lang = config.language
 
     // try to find an existing dashboard message from the bot
   let existingMessage
@@ -51,6 +54,7 @@ export const embedSender = async channel => {
       ...buttons.map(([id, emoji, style = ButtonStyle.Secondary]) =>
         new ButtonBuilder()
           .setCustomId(id)
+          .setLabel(t(id, lang))
           .setEmoji(
             useUnicode ? unicodeEmojis[id] : { id: emoji, name: id }
           )
